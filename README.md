@@ -62,6 +62,7 @@ I used Navigator to move from one screen to another. Navigator.push and Material
 I also used named routes to navigate between different screens. The application includes routes for the Home screen, Study Details screen, and other sections of the application.
 
 Data can also be passed from one screen to another during navigation. A Navigation Drawer is used to provide easy access to the different screens.
+output shows the stusy details after clicking on thw view study details button in the Experiment 3.
 
 ## Experiment 4 Output
 
@@ -72,7 +73,7 @@ Data can also be passed from one screen to another during navigation. A Navigati
 
 ## Current Application
 
-The following screenshot shows the current stage of the Study Planner application after completing Experiment 3.
+The following screenshot shows the current stage of the Study Planner application after completing Experiment 4.
 
 ![Current Application](screenshots/exp4_output.png)
 
