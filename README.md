@@ -51,11 +51,30 @@ The application can also detect whether the device is in Portrait Mode or Landsc
 
 ---
 
+
+
+## Experiment 4 – Navigation Between Different Screens Using Navigator and Named Routes
+
+In this experiment, I added navigation features to the Study Planner application.
+
+I used Navigator to move from one screen to another. Navigator.push and MaterialPageRoute are used for opening a new screen, while Navigator.pop is used to return to the previous screen.
+
+I also used named routes to navigate between different screens. The application includes routes for the Home screen, Study Details screen, and other sections of the application.
+
+Data can also be passed from one screen to another during navigation. A Navigation Drawer is used to provide easy access to the different screens.
+
+## Experiment 4 Output
+
+![Experiment 4 Output](screenshots/exp4_output.png)
+
+
+---
+
 ## Current Application
 
 The following screenshot shows the current stage of the Study Planner application after completing Experiment 3.
 
-![Current Application](screenshots/exp3_output.png)
+![Current Application](screenshots/exp4_output.png)
 
 ---
 
