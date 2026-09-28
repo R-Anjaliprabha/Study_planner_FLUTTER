@@ -90,7 +90,6 @@ In this experiment, the Study Planner demonstrates both Stateless and Stateful w
 
 Initially:
 
-```text
 Study Sessions: 0
 Completed: No
 After completing a study session:
@@ -110,6 +109,7 @@ Completed: Yes
 
 ### Study Details - After State Update
 ![Experiment 5A Details After](screenshots/exp5a_details_after.png)
+
 ---
 
 ## Current Application
