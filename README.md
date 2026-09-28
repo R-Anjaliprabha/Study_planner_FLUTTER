@@ -112,6 +112,40 @@ Completed: Yes
 
 ---
 
+## Experiment 5(B) - State Management Using Provider
+
+### Objective
+To implement state management using the Provider package and manage shared application state using `ChangeNotifier`.
+
+### Implementation
+In this experiment, the Study Planner uses Provider for managing the study session state.
+
+- `StudyProvider` extends `ChangeNotifier` to store the study session count.
+- `ChangeNotifierProvider` provides `StudyProvider` to the application.
+- `Provider.of<StudyProvider>(context)` is used to access the shared state.
+- `completeStudySession()` updates the study session count.
+- `notifyListeners()` notifies the widgets when the state changes.
+- The Home Screen and Study Details Screen read the same study session value from Provider.
+- The study completion status changes automatically based on the current study session count.
+
+### State Management Demonstration
+
+**Initially:**
+
+Study Sessions: 0  
+Completed: No
+
+**After completing a study session:**
+
+Study Sessions: 1  
+Completed: Yes
+
+## Experiment 5B Output
+
+![Experiment 5B Output](screenshots/exp5b_output.png)
+
+---
+
 ## Current Application
 
 The following screenshot shows the current stage of the Study Planner application after completing Experiment 4.

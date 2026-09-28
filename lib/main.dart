@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// ChangeNotifier is used to manage the study session state with Provider
+class StudyProvider extends ChangeNotifier {
+  int studySessions = 0;
+
+  // This method updates the state and notifies the listening widgets
+  void completeStudySession() {
+    studySessions++;
+    notifyListeners();
+  }
+}
 
 void main() {
-  // Navigator and Named Routes are used to move between different screens
-  runApp(const StudyPlanner());
+  // ChangeNotifierProvider makes StudyProvider available to the entire app
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => StudyProvider(),
+      child: const StudyPlanner(),
+    ),
+  );
 }
 
 class StudyPlanner extends StatelessWidget {
@@ -26,7 +43,8 @@ class StudyPlanner extends StatelessWidget {
   }
 }
 
-// StatefulWidget is used because the study session count changes during runtime
+// StatefulWidget is used for the Home Screen
+// The actual study session state is managed by Provider
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -34,12 +52,12 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-// State class stores the changing study session count
 class _HomeScreenState extends State<HomeScreen> {
-  int studySessions = 0;
-
   @override
   Widget build(BuildContext context) {
+    // Provider.of reads the shared study session state
+    final provider = Provider.of<StudyProvider>(context);
+
     // Scaffold provides the basic structure of the Home Screen
     return Scaffold(
       // AppBar displays the application title
@@ -172,14 +190,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
 
-                      // Completed status changes according to the current state
+                      // Completed status uses the Provider state
                       Expanded(
                         child: Column(
                           children: [
                             const Icon(Icons.check_circle),
                             const Text('Completed'),
                             Text(
-                              studySessions > 0 ? 'Yes' : 'No',
+                              provider.studySessions > 0 ? 'Yes' : 'No',
                             ),
                           ],
                         ),
@@ -192,9 +210,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 10),
 
-            // Displays the current StatefulWidget value
+            // Displays the current Provider value
             Text(
-              'Study Sessions: $studySessions',
+              'Study Sessions: ${provider.studySessions}',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -203,12 +221,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 10),
 
-            // setState() updates the study session count
+            // Provider method updates the shared study session state
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  studySessions++;
-                });
+                provider.completeStudySession();
               },
               child: const Text('Complete Study Session'),
             ),
@@ -228,10 +244,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    // Current state value is passed to the Study Details Screen
-                    builder: (context) => StudyDetailsScreen(
-                      studyName: 'Today\'s Study Plan',
-                      studySessions: studySessions,
+                    builder: (context) => const StudyDetailsScreen(
+                      studyName: "Today's Study Plan",
                     ),
                   ),
                 );
@@ -247,19 +261,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Study Details Screen receives data from the Home Screen
+// Study Details Screen reads the shared state from Provider
 class StudyDetailsScreen extends StatelessWidget {
   final String studyName;
-  final int studySessions;
 
   const StudyDetailsScreen({
     super.key,
     this.studyName = 'Study Details',
-    this.studySessions = 0,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Provider reads the shared study session state
+    final provider = Provider.of<StudyProvider>(context);
+
     // Scaffold provides the basic structure of the Details Screen
     return Scaffold(
       appBar: AppBar(
@@ -281,7 +296,7 @@ class StudyDetailsScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // Displays the data passed from the Home Screen
+              // Displays the study plan name
               Text(
                 studyName,
                 style: const TextStyle(
@@ -303,15 +318,15 @@ class StudyDetailsScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18),
               ),
 
-              // Displays the current number of completed study sessions
+              // Displays the current Provider value
               Text(
-                'Study Sessions: $studySessions',
+                'Study Sessions: ${provider.studySessions}',
                 style: const TextStyle(fontSize: 18),
               ),
 
-              // Completed status is based on the current state
+              // Completed status uses the Provider state
               Text(
-                'Completed: ${studySessions > 0 ? 'Yes' : 'No'}',
+                'Completed: ${provider.studySessions > 0 ? 'Yes' : 'No'}',
                 style: const TextStyle(fontSize: 18),
               ),
 
