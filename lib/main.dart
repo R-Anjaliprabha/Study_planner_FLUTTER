@@ -26,8 +26,17 @@ class StudyPlanner extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+// StatefulWidget is used because the study session count changes during runtime
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+// State class stores the changing study session count
+class _HomeScreenState extends State<HomeScreen> {
+  int studySessions = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -163,12 +172,15 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
-                      const Expanded(
+                      // Completed status changes according to the current state
+                      Expanded(
                         child: Column(
                           children: [
-                            Icon(Icons.check_circle),
-                            Text('Completed'),
-                            Text('Yes'),
+                            const Icon(Icons.check_circle),
+                            const Text('Completed'),
+                            Text(
+                              studySessions > 0 ? 'Yes' : 'No',
+                            ),
                           ],
                         ),
                       ),
@@ -180,6 +192,29 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
 
+            // Displays the current StatefulWidget value
+            Text(
+              'Study Sessions: $studySessions',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // setState() updates the study session count
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  studySessions++;
+                });
+              },
+              child: const Text('Complete Study Session'),
+            ),
+
+            const SizedBox(height: 10),
+
             const Text(
               'Keep going! You are doing well.',
               style: TextStyle(fontSize: 18),
@@ -187,15 +222,16 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            // Navigator.push with MaterialPageRoute opens another screen
+            // Navigator.push opens the Study Details Screen
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    // Data is passed to the Study Details Screen
-                    builder: (context) => const StudyDetailsScreen(
+                    // Current state value is passed to the Study Details Screen
+                    builder: (context) => StudyDetailsScreen(
                       studyName: 'Today\'s Study Plan',
+                      studySessions: studySessions,
                     ),
                   ),
                 );
@@ -214,10 +250,12 @@ class HomeScreen extends StatelessWidget {
 // Study Details Screen receives data from the Home Screen
 class StudyDetailsScreen extends StatelessWidget {
   final String studyName;
+  final int studySessions;
 
   const StudyDetailsScreen({
     super.key,
     this.studyName = 'Study Details',
+    this.studySessions = 0,
   });
 
   @override
@@ -265,9 +303,16 @@ class StudyDetailsScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18),
               ),
 
-              const Text(
-                'Completed: Yes',
-                style: TextStyle(fontSize: 18),
+              // Displays the current number of completed study sessions
+              Text(
+                'Study Sessions: $studySessions',
+                style: const TextStyle(fontSize: 18),
+              ),
+
+              // Completed status is based on the current state
+              Text(
+                'Completed: ${studySessions > 0 ? 'Yes' : 'No'}',
+                style: const TextStyle(fontSize: 18),
               ),
 
               const SizedBox(height: 25),

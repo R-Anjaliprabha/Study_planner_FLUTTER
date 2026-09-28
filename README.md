@@ -71,6 +71,47 @@ output shows the stusy details after clicking on thw view study details button i
 
 ---
 
+## Experiment 5(A) - Understanding Stateful and Stateless Widgets
+
+### Objective
+To understand the difference between Stateless and Stateful widgets and implement dynamic UI changes using `setState()`.
+
+### Implementation
+In this experiment, the Study Planner demonstrates both Stateless and Stateful widgets.
+
+- `StudyPlanner`, `StudyDetailsScreen`, and `AboutScreen` are implemented using `StatelessWidget`.
+- `HomeScreen` is implemented using `StatefulWidget`.
+- A study session counter is used to demonstrate changing state.
+- `setState()` is used to update the study session count dynamically.
+- The completion status changes based on the study session count.
+- The updated study session value is passed from the Home Screen to the Study Details Screen.
+
+### State Management Demonstration
+
+Initially:
+
+```text
+Study Sessions: 0
+Completed: No
+After completing a study session:
+Study Sessions: 1
+Completed: Yes
+
+## Screenshots
+
+### Main Screen - Before State Update
+![Experiment 5A Before](screenshots/exp5a_before.png)
+
+### Main Screen - After State Update
+![Experiment 5A After](screenshots/exp5a_after.png)
+
+### Study Details - Before State Update
+![Experiment 5A Details Before](screenshots/exp5a_details_before.png)
+
+### Study Details - After State Update
+![Experiment 5A Details After](screenshots/exp5a_details_after.png)
+---
+
 ## Current Application
 
 The following screenshot shows the current stage of the Study Planner application after completing Experiment 4.
