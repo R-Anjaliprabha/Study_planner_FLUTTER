@@ -147,11 +147,60 @@ Completed: Yes
 
 ---
 
+## Experiment 6 - Creating Custom Widgets and Applying Themes and Custom Styles in Flutter
+
+### Objective
+
+To create reusable custom widgets and apply themes and custom styles to maintain a consistent and professional appearance throughout the Flutter application.
+
+### Implementation
+
+In this experiment, the Study Planner application was redesigned using custom widgets and Flutter themes.
+
+- A custom `StudyInfoCard` widget is used to display study information such as subjects, study hours, and completion status.
+- A custom `StudyActionButton` widget is used for reusable action buttons.
+- `ThemeData` is used to maintain consistent styling across the application.
+- Custom colors, text styles, button styles, card styles, and AppBar styles are applied.
+- The Study Planner interface was redesigned with a clean and organized layout.
+- Custom widgets help reduce repeated code and improve code reusability.
+- The same theme and styling are applied across different screens.
+
+### Custom Widgets Used
+
+- `StudyInfoCard` - Displays individual study information.
+- `StudyActionButton` - Provides reusable action buttons.
+
+### Theme and Custom Styling
+
+The application uses `ThemeData` to define:
+
+- Application color scheme
+- AppBar styling
+- Text styles
+- Card styling
+- Button styling
+- Background appearance
+
+This provides a consistent look and feel throughout the Study Planner application.
+
+### Screenshots
+
+#### Experiment 6 - Home Page
+
+![Experiment 6 Home Page](screenshots/exp6_homepage.png)
+
+#### Experiment 6 - Study Details Page
+
+![Experiment 6 Details Page](screenshots/exp6_details.png)
+
+---
+
 ## Current Application
 
 The following screenshot shows the current stage of the Study Planner application after completing Experiment 4.
 
-![Current Application](screenshots/exp5b_output.png)
+![Current Application](screenshots/exp6_homepage.png)
+![Current Application](screenshots/exp6_details.png)
 
 ---
 
