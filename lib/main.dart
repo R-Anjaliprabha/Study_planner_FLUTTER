@@ -1,19 +1,106 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// ChangeNotifier is used to manage the study session state with Provider
+// ChangeNotifier is used to manage the shared study session state
 class StudyProvider extends ChangeNotifier {
   int studySessions = 0;
 
-  // This method updates the state and notifies the listening widgets
+  // This method updates the study session count
+  // and notifies the widgets using Provider
   void completeStudySession() {
     studySessions++;
     notifyListeners();
   }
 }
 
+// Custom widget for displaying study information
+// This makes the same UI component reusable in different places
+class StudyInfoCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String value;
+
+  const StudyInfoCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Card is used to create a clean reusable study information component
+    return Expanded(
+      child: Card(
+        elevation: 3,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 8,
+          ),
+          child: Column(
+            children: [
+              // Icon displays the type of study information
+              Icon(
+                icon,
+                size: 28,
+              ),
+
+              const SizedBox(height: 8),
+
+              // Displays the name of the information
+              Text(
+                title,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 4),
+
+              // Displays the corresponding value
+              Text(
+                value,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Custom widget for reusable action buttons
+// The same button design can be used throughout the application
+class StudyActionButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+  final IconData icon;
+
+  const StudyActionButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // ElevatedButton uses the style defined by the application ThemeData
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon),
+        label: Text(text),
+      ),
+    );
+  }
+}
+
 void main() {
-  // ChangeNotifierProvider makes StudyProvider available to the entire app
+  // ChangeNotifierProvider makes StudyProvider available
+  // throughout the application
   runApp(
     ChangeNotifierProvider(
       create: (_) => StudyProvider(),
@@ -27,10 +114,73 @@ class StudyPlanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // MaterialApp is used to manage the application and named routes
+    // MaterialApp manages the application and named routes
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Study Planner',
+
+      // ThemeData is used to apply a consistent style
+      // throughout the entire application
+      theme: ThemeData(
+        useMaterial3: true,
+
+        // Defines the main application color
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+        ),
+
+        // Defines the background of the application screens
+        scaffoldBackgroundColor: const Color(0xFFF5F7FB),
+
+        // Defines the default AppBar appearance
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+          elevation: 0,
+        ),
+
+        // Defines the common Card appearance
+        cardTheme: const CardTheme(
+        elevation: 2,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+        Radius.circular(16),
+        ),
+      ),
+    ),
+
+        // Defines the common ElevatedButton appearance
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              vertical: 14,
+              horizontal: 20,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+
+        // Defines common text styles
+        textTheme: const TextTheme(
+          headlineSmall: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+          titleLarge: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          titleMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 14,
+          ),
+        ),
+      ),
 
       // Named routes are registered here
       initialRoute: '/',
@@ -62,7 +212,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       // AppBar displays the application title
       appBar: AppBar(
-        title: const Text('Study Planner'),
+        title: const Text(
+          'Study Planner',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
 
       // Navigation Drawer provides navigation to different screens
@@ -70,16 +225,36 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            // DrawerHeader displays the drawer heading
-            const DrawerHeader(
-              child: Center(
-                child: Text(
-                  'Study Planner',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+            // DrawerHeader displays the application heading
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Icon(
+                    Icons.school,
+                    color: Colors.white,
+                    size: 40,
                   ),
-                ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Study Planner',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Plan • Study • Achieve',
+                    style: TextStyle(
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
               ),
             ),
 
@@ -113,147 +288,222 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
 
-      // SingleChildScrollView allows the screen to scroll when needed
+      // SingleChildScrollView allows the screen to scroll when required
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Stack places the heading over the study image
+            // Header section displays the study image and title
             Stack(
               alignment: Alignment.center,
               children: [
                 // Image.asset displays the local study image
                 Image.asset(
                   'images/studying.jpg',
-                  height: 180,
+                  height: 210,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
 
-                // Text displays the main heading
-                const Text(
-                  'Plan Your Study',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                // A dark overlay improves the readability of the heading
+                Container(
+                  height: 210,
+                  width: double.infinity,
+                  color: Colors.black38,
+                ),
+
+                // Main heading displayed over the image
+                const Column(
+                  children: [
+                    Icon(
+                      Icons.menu_book,
+                      color: Colors.white,
+                      size: 42,
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Plan Your Study',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Stay focused. Keep learning.',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
 
-            // Container groups the study plan information
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.all(16),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue),
-                borderRadius: BorderRadius.circular(10),
-              ),
-
-              // Column arranges the study plan contents vertically
+            // Padding provides consistent spacing around the content
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  // Section heading
+                  Text(
                     "Today's Study Plan",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
 
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 6),
 
-                  // Row arranges the study details horizontally
+                  const Text(
+                    'Keep track of your daily study activities.',
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  // Row displays the reusable custom StudyInfoCard widgets
                   Row(
                     children: [
-                      // Expanded divides the available Row space
-                      const Expanded(
-                        child: Column(
-                          children: [
-                            Icon(Icons.book),
-                            Text('Subjects'),
-                            Text('5'),
-                          ],
-                        ),
+                      // Custom widget for subject information
+                      const StudyInfoCard(
+                        icon: Icons.menu_book,
+                        title: 'Subjects',
+                        value: '5',
                       ),
 
-                      const Expanded(
-                        child: Column(
-                          children: [
-                            Icon(Icons.access_time),
-                            Text('Hours'),
-                            Text('3.5'),
-                          ],
-                        ),
+                      const SizedBox(width: 10),
+
+                      // Custom widget for study hours
+                      const StudyInfoCard(
+                        icon: Icons.access_time,
+                        title: 'Hours',
+                        value: '3.5',
                       ),
 
-                      // Completed status uses the Provider state
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const Icon(Icons.check_circle),
-                            const Text('Completed'),
-                            Text(
-                              provider.studySessions > 0 ? 'Yes' : 'No',
-                            ),
-                          ],
-                        ),
+                      const SizedBox(width: 10),
+
+                      // Custom widget for completion status
+                      StudyInfoCard(
+                        icon: Icons.check_circle,
+                        title: 'Completed',
+                        value: provider.studySessions > 0
+                            ? 'Yes'
+                            : 'No',
                       ),
                     ],
                   ),
+
+                  const SizedBox(height: 22),
+
+                  // This Card displays the current Provider state
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(18),
+                      child: Row(
+                        children: [
+                          // Icon represents completed study sessions
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.task_alt,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary,
+                            ),
+                          ),
+
+                          const SizedBox(width: 16),
+
+                          // Displays the current Provider value
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Study Sessions',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${provider.studySessions} session completed',
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // Displays the current number
+                          Text(
+                            '${provider.studySessions}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  // Custom widget is reused for the main action button
+                  StudyActionButton(
+                    icon: Icons.check_circle_outline,
+                    text: 'Complete Study Session',
+                    onPressed: () {
+                      // Provider method updates the shared state
+                      provider.completeStudySession();
+                    },
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Custom widget is reused for navigation
+                  StudyActionButton(
+                    icon: Icons.arrow_forward,
+                    text: 'View Study Details',
+                    onPressed: () {
+                      // Navigator.push opens the Study Details Screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const StudyDetailsScreen(
+                            studyName: "Today's Study Plan",
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Motivational message
+                  Center(
+                    child: Text(
+                      'Keep going! You are doing well. 📚',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium,
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
-
-            const SizedBox(height: 10),
-
-            // Displays the current Provider value
-            Text(
-              'Study Sessions: ${provider.studySessions}',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            // Provider method updates the shared study session state
-            ElevatedButton(
-              onPressed: () {
-                provider.completeStudySession();
-              },
-              child: const Text('Complete Study Session'),
-            ),
-
-            const SizedBox(height: 10),
-
-            const Text(
-              'Keep going! You are doing well.',
-              style: TextStyle(fontSize: 18),
-            ),
-
-            const SizedBox(height: 15),
-
-            // Navigator.push opens the Study Details Screen
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const StudyDetailsScreen(
-                      studyName: "Today's Study Plan",
-                    ),
-                  ),
-                );
-              },
-              child: const Text('View Study Details'),
-            ),
-
-            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -281,63 +531,89 @@ class StudyDetailsScreen extends StatelessWidget {
         title: const Text('Study Details'),
       ),
 
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
-
-          // Column arranges the details vertically
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.school,
-                size: 70,
-              ),
+              // Custom card layout is used to display study details
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.school,
+                        size: 70,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary,
+                      ),
 
-              const SizedBox(height: 20),
+                      const SizedBox(height: 18),
 
-              // Displays the study plan name
-              Text(
-                studyName,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                      Text(
+                        studyName,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall,
+                        textAlign: TextAlign.center,
+                      ),
+
+                      const SizedBox(height: 24),
+
+                      const Divider(),
+
+                      const SizedBox(height: 12),
+
+                      // Displays the study information
+                      const ListTile(
+                        leading: Icon(Icons.menu_book),
+                        title: Text('Subjects'),
+                        trailing: Text('5'),
+                      ),
+
+                      const ListTile(
+                        leading: Icon(Icons.access_time),
+                        title: Text('Study Hours'),
+                        trailing: Text('3.5'),
+                      ),
+
+                      ListTile(
+                        leading: const Icon(Icons.check_circle),
+                        title: const Text('Completed'),
+                        trailing: Text(
+                          provider.studySessions > 0
+                              ? 'Yes'
+                              : 'No',
+                        ),
+                      ),
+
+                      ListTile(
+                        leading: const Icon(Icons.repeat),
+                        title: const Text('Study Sessions'),
+                        trailing: Text(
+                          '${provider.studySessions}',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
-              const Text(
-                'Subjects: 5',
-                style: TextStyle(fontSize: 18),
-              ),
-
-              const Text(
-                'Study Hours: 3.5',
-                style: TextStyle(fontSize: 18),
-              ),
-
-              // Displays the current Provider value
-              Text(
-                'Study Sessions: ${provider.studySessions}',
-                style: const TextStyle(fontSize: 18),
-              ),
-
-              // Completed status uses the Provider state
-              Text(
-                'Completed: ${provider.studySessions > 0 ? 'Yes' : 'No'}',
-                style: const TextStyle(fontSize: 18),
-              ),
-
-              const SizedBox(height: 25),
-
-              // Navigator.pop returns to the previous screen
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Back to Study Planner'),
+              // ThemeData controls the appearance of this button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    // Navigator.pop returns to the previous screen
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                  label: const Text('Back to Study Planner'),
+                ),
               ),
             ],
           ),
@@ -361,41 +637,57 @@ class AboutScreen extends StatelessWidget {
 
       // Center places the About information in the middle
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.school,
-              size: 70,
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(28),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Application icon
+                  Icon(
+                    Icons.school,
+                    size: 70,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary,
+                  ),
 
-            const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-            const Text(
-              'Study Planner',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
+                  // Application name
+                  Text(
+                    'Study Planner',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall,
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  const Text(
+                    'A simple app for planning daily '
+                    'study activities and tracking '
+                    'study progress.',
+                    textAlign: TextAlign.center,
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  // ThemeData provides the common button style
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Navigator.pop returns to the previous screen
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back),
+                    label: const Text('Back'),
+                  ),
+                ],
               ),
             ),
-
-            const SizedBox(height: 10),
-
-            const Text(
-              'A simple app for planning daily study activities.',
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 25),
-
-            // Navigator.pop returns to the previous screen
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Back'),
-            ),
-          ],
+          ),
         ),
       ),
     );
