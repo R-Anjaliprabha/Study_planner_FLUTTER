@@ -140,8 +140,9 @@ Completed: No
 Study Sessions: 1  
 Completed: Yes
 
-## Experiment 5B Output
+### Screenshots
 
+#### Experiment 5(B) Output
 ![Experiment 5B Output](screenshots/exp5b_output.png)
 
 ---
@@ -150,7 +151,7 @@ Completed: Yes
 
 The following screenshot shows the current stage of the Study Planner application after completing Experiment 4.
 
-![Current Application](screenshots/exp4_output.png)
+![Current Application](screenshots/exp5b_output.png)
 
 ---
 
