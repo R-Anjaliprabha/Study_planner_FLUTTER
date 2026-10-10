@@ -250,6 +250,49 @@ Successfully designed and implemented an Add New Subject form to collect subject
 
 ---
 
+---
+
+## Experiment 7(B) - Implement Form Validation and Error Handling
+
+### Objective
+
+To implement form validation and display appropriate error messages when users enter invalid or incomplete data.
+
+### Implementation
+
+In this experiment, I improved the form validation in the Add New Subject form of the Study Planner application.
+
+* `GlobalKey<FormState>` is used to validate the form fields.
+* The subject name field checks whether the user has entered a name.
+* The study hours field accepts valid non-negative numeric values.
+* The target hours field checks that the entered value is a valid number greater than zero.
+* An additional validation check ensures that study hours do not exceed target hours.
+* A SnackBar displays an error message when study hours are greater than target hours.
+* The subject is saved only when the entered details pass validation.
+
+### Validation Testing
+
+The following test cases were checked:
+
+* Submitting the form with an empty subject name.
+* Entering invalid values for study hours.
+* Entering zero for target hours.
+* Entering study hours greater than target hours.
+* Submitting the form with valid subject details.
+
+### Result
+
+Successfully implemented and tested form validation and error handling in the Study Planner application.
+
+#### Experiment 7(B) - Home Page
+
+![Experiment 7A Home Page](screenshots/exp7b_validation.png)
+
+#### Experiment 7(B) - Study Details Page
+
+![Experiment 7A Study Details](screenshots/exp7b_details.png)
+---
+
 ## Current Application
 
 The following screenshots show the current stage of the Study Planner application after completing Experiment 7(A).

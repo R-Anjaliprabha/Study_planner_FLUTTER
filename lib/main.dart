@@ -518,7 +518,22 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
   void _saveSubject() {
     // Basic required-field checks keep empty values out of the subject list.
     if (!_formKey.currentState!.validate()) return;
+      final studyHours =
+    double.parse(studyHoursController.text.trim());
 
+final targetHours =
+    double.parse(targetHoursController.text.trim());
+
+if (studyHours > targetHours) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text(
+        'Study hours cannot be greater than target hours.',
+      ),
+    ),
+  );
+  return;
+}
     final subject = StudySubject(
       name: subjectNameController.text.trim(),
       studyHours: double.parse(studyHoursController.text.trim()),
