@@ -14,7 +14,7 @@ This project helps in understanding the practical implementation of Flutter conc
 
 In this experiment, I created the basic Study Planner project and worked with some basic Dart concepts.
 
-## Experiment 1 Output
+### Experiment 1 Output
 
 ![Experiment 1 Output](screenshots/exp1_output.png)
 
@@ -28,7 +28,7 @@ I used Text, an image, icons, Container, and an ElevatedButton.
 
 For arranging the elements, I used Column, Row, and Stack.
 
-## Experiment 2 Output
+### Experiment 2 Output
 
 ![Experiment 2 Output](screenshots/exp2_output.jpg)
 
@@ -44,14 +44,11 @@ I used LayoutBuilder to check the available width and create different layouts f
 
 The application can also detect whether the device is in Portrait Mode or Landscape Mode. By using these responsive widgets and techniques, the Study Planner interface can adapt better to different devices and screen sizes.
 
-## Experiment 3 Output
+### Experiment 3 Output
 
 ![Experiment 3 Output](screenshots/exp3_output.png)
 
-
 ---
-
-
 
 ## Experiment 4 – Navigation Between Different Screens Using Navigator and Named Routes
 
@@ -62,52 +59,62 @@ I used Navigator to move from one screen to another. Navigator.push and Material
 I also used named routes to navigate between different screens. The application includes routes for the Home screen, Study Details screen, and other sections of the application.
 
 Data can also be passed from one screen to another during navigation. A Navigation Drawer is used to provide easy access to the different screens.
-output shows the stusy details after clicking on thw view study details button in the Experiment 3.
 
-## Experiment 4 Output
+The output shows the Study Details screen after clicking the View Study Details button in Experiment 3.
+
+### Experiment 4 Output
 
 ![Experiment 4 Output](screenshots/exp4_output.png)
-
 
 ---
 
 ## Experiment 5(A) - Understanding Stateful and Stateless Widgets
 
 ### Objective
+
 To understand the difference between Stateless and Stateful widgets and implement dynamic UI changes using `setState()`.
 
 ### Implementation
+
 In this experiment, the Study Planner demonstrates both Stateless and Stateful widgets.
 
-- `StudyPlanner`, `StudyDetailsScreen`, and `AboutScreen` are implemented using `StatelessWidget`.
-- `HomeScreen` is implemented using `StatefulWidget`.
-- A study session counter is used to demonstrate changing state.
-- `setState()` is used to update the study session count dynamically.
-- The completion status changes based on the study session count.
-- The updated study session value is passed from the Home Screen to the Study Details Screen.
+* `StudyPlanner`, `StudyDetailsScreen`, and `AboutScreen` are implemented using `StatelessWidget`.
+* `HomeScreen` is implemented using `StatefulWidget`.
+* A study session counter is used to demonstrate changing state.
+* `setState()` is used to update the study session count dynamically.
+* The completion status changes based on the study session count.
+* The updated study session value is passed from the Home Screen to the Study Details Screen.
 
 ### State Management Demonstration
 
-Initially:
+**Initially:**
 
 Study Sessions: 0
+
 Completed: No
-After completing a study session:
+
+**After completing a study session:**
+
 Study Sessions: 1
+
 Completed: Yes
 
-## Screenshots
+### Screenshots
 
-### Main Screen - Before State Update
+#### Main Screen - Before State Update
+
 ![Experiment 5A Before](screenshots/exp5a_before.png)
 
-### Main Screen - After State Update
+#### Main Screen - After State Update
+
 ![Experiment 5A After](screenshots/exp5a_after.png)
 
-### Study Details - Before State Update
+#### Study Details - Before State Update
+
 ![Experiment 5A Details Before](screenshots/exp5a_details_before.png)
 
-### Study Details - After State Update
+#### Study Details - After State Update
+
 ![Experiment 5A Details After](screenshots/exp5a_details_after.png)
 
 ---
@@ -115,34 +122,39 @@ Completed: Yes
 ## Experiment 5(B) - State Management Using Provider
 
 ### Objective
+
 To implement state management using the Provider package and manage shared application state using `ChangeNotifier`.
 
 ### Implementation
+
 In this experiment, the Study Planner uses Provider for managing the study session state.
 
-- `StudyProvider` extends `ChangeNotifier` to store the study session count.
-- `ChangeNotifierProvider` provides `StudyProvider` to the application.
-- `Provider.of<StudyProvider>(context)` is used to access the shared state.
-- `completeStudySession()` updates the study session count.
-- `notifyListeners()` notifies the widgets when the state changes.
-- The Home Screen and Study Details Screen read the same study session value from Provider.
-- The study completion status changes automatically based on the current study session count.
+* `StudyProvider` extends `ChangeNotifier` to store the study session count.
+* `ChangeNotifierProvider` provides `StudyProvider` to the application.
+* `Provider.of<StudyProvider>(context)` is used to access the shared state.
+* `completeStudySession()` updates the study session count.
+* `notifyListeners()` notifies the widgets when the state changes.
+* The Home Screen and Study Details Screen read the same study session value from Provider.
+* The study completion status changes automatically based on the current study session count.
 
 ### State Management Demonstration
 
 **Initially:**
 
-Study Sessions: 0  
+Study Sessions: 0
+
 Completed: No
 
 **After completing a study session:**
 
-Study Sessions: 1  
+Study Sessions: 1
+
 Completed: Yes
 
 ### Screenshots
 
 #### Experiment 5(B) Output
+
 ![Experiment 5B Output](screenshots/exp5b_output.png)
 
 ---
@@ -157,29 +169,29 @@ To create reusable custom widgets and apply themes and custom styles to maintain
 
 In this experiment, the Study Planner application was redesigned using custom widgets and Flutter themes.
 
-- A custom `StudyInfoCard` widget is used to display study information such as subjects, study hours, and completion status.
-- A custom `StudyActionButton` widget is used for reusable action buttons.
-- `ThemeData` is used to maintain consistent styling across the application.
-- Custom colors, text styles, button styles, card styles, and AppBar styles are applied.
-- The Study Planner interface was redesigned with a clean and organized layout.
-- Custom widgets help reduce repeated code and improve code reusability.
-- The same theme and styling are applied across different screens.
+* A custom `StudyInfoCard` widget is used to display study information such as subjects, study hours, and completion status.
+* A custom `StudyActionButton` widget is used for reusable action buttons.
+* `ThemeData` is used to maintain consistent styling across the application.
+* Custom colors, text styles, button styles, card styles, and AppBar styles are applied.
+* The Study Planner interface was redesigned with a clean and organized layout.
+* Custom widgets help reduce repeated code and improve code reusability.
+* The same theme and styling are applied across different screens.
 
 ### Custom Widgets Used
 
-- `StudyInfoCard` - Displays individual study information.
-- `StudyActionButton` - Provides reusable action buttons.
+* `StudyInfoCard` - Displays individual study information.
+* `StudyActionButton` - Provides reusable action buttons.
 
 ### Theme and Custom Styling
 
 The application uses `ThemeData` to define:
 
-- Application color scheme
-- AppBar styling
-- Text styles
-- Card styling
-- Button styling
-- Background appearance
+* Application color scheme
+* AppBar styling
+* Text styles
+* Card styling
+* Button styling
+* Background appearance
 
 This provides a consistent look and feel throughout the Study Planner application.
 
@@ -195,12 +207,56 @@ This provides a consistent look and feel throughout the Study Planner applicatio
 
 ---
 
+## Experiment 7(A) - Design a Form with Various Input Fields
+
+### Objective
+
+To design a form using different input fields and understand how to collect and handle user input in Flutter.
+
+### Implementation
+
+In this experiment, I added an Add New Subject form to the Study Planner application to collect subject details.
+
+* TextFormField is used to enter the subject name.
+* Users can enter the study hours and target hours for each subject.
+* An optional description can be added for the subject.
+* Users can select a color for each subject.
+* Basic input validation is used to check the required fields before saving.
+* The entered subject details are returned to the Home Screen and managed using Provider.
+* The added subjects are displayed with their study hours, target hours, and progress.
+
+### Form Features
+
+* Subject Name
+* Study Hours
+* Target Hours
+* Description
+* Subject Color Selection
+* Save Subject Button
+
+### Screenshots
+
+#### Experiment 7(A) - Home Page
+
+![Experiment 7A Home Page](screenshots/exp7a_home.png)
+
+#### Experiment 7(A) - Study Details Page
+
+![Experiment 7A Study Details](screenshots/exp7a_details.png)
+
+### Result
+
+Successfully designed and implemented an Add New Subject form to collect subject details and display the added subjects and their study progress in the Study Planner application.
+
+---
+
 ## Current Application
 
-The following screenshot shows the current stage of the Study Planner application after completing Experiment 4.
+The following screenshots show the current stage of the Study Planner application after completing Experiment 7(A).
 
-![Current Application](screenshots/exp6_homepage.png)
-![Current Application](screenshots/exp6_details.png)
+![Current Application Home Page](screenshots/exp7a_home.png)
+
+![Current Application Study Details](screenshots/exp7a_details.png)
 
 ---
 
@@ -214,9 +270,9 @@ The following sample image shows the expected design of the Study Planner applic
 
 ## Future Enhancements
 
-- Add and manage study tasks
-- Add subjects and study schedules
-- Add calendar-based planning
-- Add study progress tracking
-- Add reminders and notifications
-- Improve the user interface
+* Add and manage study tasks
+* Add subjects and study schedules
+* Add calendar-based planning
+* Add study progress tracking
+* Add reminders and notifications
+* Improve the user interface
