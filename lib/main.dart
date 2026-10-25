@@ -165,8 +165,91 @@ class StudyPlanner extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+// Reusable page transition for Experiment 8: slide and fade together.
+Route<T> slideFadeRoute<T>(Widget page) {
+  return PageRouteBuilder<T>(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionDuration: const Duration(milliseconds: 500),
+    reverseTransitionDuration: const Duration(milliseconds: 400),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final slideAnimation = Tween<Offset>(
+        begin: const Offset(1, 0),
+        end: Offset.zero,
+      ).chain(CurveTween(curve: Curves.easeInOut));
+
+      return FadeTransition(
+        opacity: animation,
+        child: SlideTransition(
+          position: animation.drive(slideAnimation),
+          child: child,
+        ),
+      );
+    },
+  );
+}
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  late AnimationController _bannerController;
+  late Animation<double> _bannerOpacity;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Experiment 8: Fade and slide animation for the home screen.
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2200),
+    );
+
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.35),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOutCubic,
+      ),
+    );
+
+    // Experiment 8: Separate fade animation for the banner.
+    _bannerController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    );
+
+    _bannerOpacity = CurvedAnimation(
+      parent: _bannerController,
+      curve: Curves.easeIn,
+    );
+
+    _animationController.forward();
+    _bannerController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _bannerController.dispose();
+    super.dispose();
+  }
 
   Future<void> _openAddSubject(BuildContext context) async {
     final subject = await Navigator.push<StudySubject>(
@@ -186,7 +269,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.watch<StudyProvider>();
 
-    return Scaffold(
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: Scaffold(
       appBar: AppBar(
         title: const Text(
           'Study Planner',
@@ -225,22 +310,24 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.home),
               title: const Text('Home'),
-              onTap: () => Navigator.pushNamed(context, '/'),
+              onTap: () => Navigator.push(context, slideFadeRoute(const HomeScreen())),
             ),
             ListTile(
               leading: const Icon(Icons.book),
               title: const Text('Study Details'),
-              onTap: () => Navigator.pushNamed(context, '/details'),
+              onTap: () => Navigator.push(context, slideFadeRoute(const StudyDetailsScreen())),
             ),
             ListTile(
               leading: const Icon(Icons.info),
               title: const Text('About'),
-              onTap: () => Navigator.pushNamed(context, '/about'),
+              onTap: () => Navigator.push(context, slideFadeRoute(const AboutScreen())),
             ),
           ],
         ),
       ),
-      body: SingleChildScrollView(
+      body: SlideTransition(
+        position: _slideAnimation,
+        child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -263,24 +350,27 @@ class HomeScreen extends StatelessWidget {
                   width: double.infinity,
                   color: Colors.black38,
                 ),
-                const Column(
-                  children: [
-                    Icon(Icons.menu_book, color: Colors.white, size: 42),
-                    SizedBox(height: 8),
-                    Text(
-                      'Plan Your Study',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                FadeTransition(
+                  opacity: _bannerOpacity,
+                  child: const Column(
+                    children: [
+                      Icon(Icons.menu_book, color: Colors.white, size: 42),
+                      SizedBox(height: 8),
+                      Text(
+                        'Plan Your Study',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Stay focused. Keep learning.',
-                      style: TextStyle(fontSize: 15, color: Colors.white),
-                    ),
-                  ],
+                      SizedBox(height: 4),
+                      Text(
+                        'Stay focused. Keep learning.',
+                        style: TextStyle(fontSize: 15, color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -370,7 +460,7 @@ class HomeScreen extends StatelessWidget {
                   StudyActionButton(
                     icon: Icons.arrow_forward,
                     text: 'View Study Details',
-                    onPressed: () => Navigator.pushNamed(context, '/details'),
+                    onPressed: () => Navigator.push(context, slideFadeRoute(const StudyDetailsScreen())),
                   ),
                   const SizedBox(height: 12),
                   StudyActionButton(
@@ -429,6 +519,8 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+        ),
+      ),
       ),
     );
   }
@@ -445,7 +537,10 @@ class SubjectCard extends StatelessWidget {
         ? 0.0
         : (subject.studyHours / subject.targetHours).clamp(0.0, 1.0).toDouble();
 
-    return Card(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+      child: Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -484,6 +579,7 @@ class SubjectCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

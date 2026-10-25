@@ -250,8 +250,6 @@ Successfully designed and implemented an Add New Subject form to collect subject
 
 ---
 
----
-
 ## Experiment 7(B) - Implement Form Validation and Error Handling
 
 ### Objective
@@ -291,7 +289,34 @@ Successfully implemented and tested form validation and error handling in the St
 #### Experiment 7(B) - Study Details Page
 
 ![Experiment 7A Study Details](screenshots/exp7b_details.png)
+
 ---
+
+## Experiment 8 – Implementing UI Animations Using Flutter Animation Framework
+
+### Aim
+To implement UI animations in Flutter and experiment with fade and slide animations to improve the user experience.
+
+### Description
+In this experiment, animations were added to the Study Planner application to make the user interface smoother and more interactive. Fade and slide animations were used for the home screen content and page transitions.
+
+### Concepts Used
+- `FadeTransition`
+- `SlideTransition`
+- `PageRouteBuilder`
+- `AnimationController`
+- `TickerProviderStateMixin`
+
+### Features Implemented
+- Fade and slide animations on the home screen.
+- Fade animation for the study banner.
+- Slide and fade effects when navigating to another page.
+- Smooth transitions between screens while retaining existing Study Planner features.
+
+### Result
+Successfully implemented fade and slide animations in the Study Planner application to improve the visual experience and screen navigation.
+
+
 
 ## Current Application
 
