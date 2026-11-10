@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'api_users_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'auth_screen.dart';
 
 // Stores the details entered for one subject.
 class StudySubject {
@@ -108,7 +113,13 @@ class StudyActionButton extends StatelessWidget {
   }
 }
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(
     ChangeNotifierProvider(
       create: (_) => StudyProvider(),
@@ -157,7 +168,22 @@ class StudyPlanner extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomeScreen(),
+        '/': (context) => StreamBuilder<User?>(
+  stream: FirebaseAuth.instance.authStateChanges(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (snapshot.hasData) {
+      return const HomeScreen();
+    }
+
+    return const AuthScreen();
+  },
+),
         '/details': (context) => const StudyDetailsScreen(),
         '/about': (context) => const AboutScreen(),
       },
@@ -322,6 +348,39 @@ class _HomeScreenState extends State<HomeScreen>
               title: const Text('About'),
               onTap: () => Navigator.push(context, slideFadeRoute(const AboutScreen())),
             ),
+            
+
+ListTile(
+  leading: const Icon(Icons.cloud_download_outlined),
+  title: const Text('API Users'),
+  onTap: () {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      slideFadeRoute(const ApiUsersScreen()),
+    );
+  },
+),
+ListTile(
+  leading: const Icon(Icons.logout, color: Colors.red),
+  title: const Text(
+    'Logout',
+    style: TextStyle(color: Colors.red),
+  ),
+  onTap: () async {
+    Navigator.pop(context);
+
+    await FirebaseAuth.instance.signOut();
+
+    if (context.mounted) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        '/',
+        (route) => false,
+      );
+    }
+  },
+),
+
           ],
         ),
       ),

@@ -294,7 +294,7 @@ Successfully implemented and tested form validation and error handling in the St
 
 ## Experiment 8 – Implementing UI Animations Using Flutter Animation Framework
 
-### Aim
+### objective
 To implement UI animations in Flutter and experiment with fade and slide animations to improve the user experience.
 
 ### Description
@@ -316,17 +316,50 @@ In this experiment, animations were added to the Study Planner application to ma
 ### Result
 Successfully implemented fade and slide animations in the Study Planner application to improve the visual experience and screen navigation.
 
+---
 
+## Experiment 9 – Firebase Integration and Authentication
+
+**Objective:** To connect the Study Planner application with Firebase and implement user authentication.
+
+**Description:**
+
+In this experiment, Firebase was connected to the Study Planner application. Firebase Authentication was used to provide email and password-based registration and login.
+
+**Features implemented:**
+- Connected the application with Firebase.
+- Configured Firebase for Android and Web.
+- Implemented user registration.
+- Implemented login using email and password.
+- Added logout functionality.
+- Managed authentication state to display the appropriate screen.
+
+**Packages Used:**
+- firebase_core
+- firebase_auth
+
+**Result:** Successfully integrated Firebase Authentication into the Study Planner application.
+
+**Output Screenshots:**
+
+### 1. Login and Sign Up Screen
+![Experiment 9.1 Output](screenshots/exp9.1_output.png)
+
+### 2. Study Planner Home Screen
+![Experiment 9.2 Output](screenshots/exp9.2_output.png)
+
+---
 
 ## Current Application
 
 The following screenshots show the current stage of the Study Planner application after completing Experiment 7(A).
 
-![Current Application Home Page](screenshots/exp7a_home.png)
+![Current Application Home Page](screenshots/exp9.1_output.png)
 
-![Current Application Study Details](screenshots/exp7a_details.png)
+![Current Application Study Details](screenshots/exp9.2_output.png)
 
 ---
+
 
 ## Expected Final Application
 
